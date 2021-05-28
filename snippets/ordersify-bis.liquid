@@ -1,0 +1,117 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+<style type="text/css">
+  
+</style>
+<style type="text/css">
+    
+</style>
+<script type="text/javascript">
+  window.ORDERSIFY_BIS = window.ORDERSIFY_BIS || {};
+  window.ORDERSIFY_BIS.template = "{{ template }}";
+  window.ORDERSIFY_BIS.language = "{{ request.locale.iso_code }}";
+  window.ORDERSIFY_BIS.primary_language = "en";
+  window.ORDERSIFY_BIS.variant_inventory = [];
+  window.ORDERSIFY_BIS.product_collections = [];
+  {% for product_variant in product.variants %}
+    window.ORDERSIFY_BIS.variant_inventory[{{ product_variant.id }}] = {
+      inventory_management: "{{ product_variant.inventory_management }}",
+      inventory_policy: "{{ product_variant.inventory_policy }}",
+      inventory_quantity: {{ product_variant.inventory_quantity }}
+    };
+  {% endfor %}
+  {% for product_collection in product.collections %}
+    window.ORDERSIFY_BIS.product_collections.push({
+      id: "{{ product_collection.id }}",
+    });
+  {% endfor %}
+  window.ORDERSIFY_BIS.shop = "{{ shop.permanent_domain }}";
+  window.ORDERSIFY_BIS.variant_inventory = [];
+  {% for product_variant in product.variants %}
+    window.ORDERSIFY_BIS.variant_inventory[{{ product_variant.id }}] = {
+      inventory_management: "{{ product_variant.inventory_management }}",
+      inventory_policy: "{{ product_variant.inventory_policy }}",
+      inventory_quantity: {{ product_variant.inventory_quantity }}
+    };
+  {% endfor %}
+  {% if customer %}
+    window.ORDERSIFY_BIS.customer = {
+      email: "{{ customer.email }}",
+      name: "{{ customer.name }}",
+      id: {{ customer.id }}
+    };
+  {% endif %}
+  window.ORDERSIFY_BIS.popupSetting = {
+    "is_brand_mark": false,
+    "font_family": "Playfair Display",
+    "is_multiple_language": false,
+    "font_size": 13,
+    "popup_border_radius": 4,
+    "popup_heading_color": "#0e0e0e",
+    "popup_text_color": "#0e0e0e",
+    "is_message_enable": false,
+    "is_sms_enable": false,
+    "is_accepts_marketing_enable": false,
+    "field_border_radius": 0,
+    "popup_button_color": "#ffffff",
+    "popup_button_bg_color": "#0e0e0e",
+    "is_float_button": false,
+    "is_inline_form": false,
+    "inline_form_selector": null,
+    "inline_form_position": null,
+    "float_button_position": "right",
+    "float_button_top": 15,
+    "float_button_color": "#ffffff",
+    "float_button_bg_color": "#0e0e0e",
+    "is_inline_button": true,
+    "inline_button_color": "#ffffff",
+    "inline_button_bg_color": "#0E0E0E",
+    "is_push_notification_enable": false,
+    "is_overlay_close": true,
+    "ignore_collection_ids": "",
+    "ignore_product_tags": "",
+    "ignore_product_ids": "",
+    "is_auto_translation": false,
+    "selector": "ods-bis",
+    "selector_position": "right",
+    "is_ga": true,
+    "is_fp": true,
+    "is_fb_checkbox": false,
+    "fb_page_id": null,
+    "is_pushowl": false
+};
+  window.ORDERSIFY_BIS.product = {{ product | json }};
+  window.ORDERSIFY_BIS.currentVariant = {{ current_variant | json }};
+  window.ORDERSIFY_BIS.stockRemainingSetting = {
+    "status": false,
+    "selector": "#osf_stock_remaining",
+    "selector_position": "inside",
+    "font_family": "Lato",
+    "font_size": 13,
+    "content": "{% raw %}BIENT\u00d4T \u00c9PUIS\u00c9{% endraw %}",
+    "display_quantity": 1,
+    "is_multiple_language": false,
+    "ignore_collection_ids": "",
+    "ignore_product_tags": "",
+    "ignore_product_ids": ""
+};
+  {% raw %}
+    window.ORDERSIFY_BIS.translations = {
+    "en": {
+        "inline_button_text": "M'avertir de sa disponibilit\u00e9",
+        "float_button_text": "M'avertir de sa disponibilit\u00e9",
+        "popup_heading": "M'avertir de sa disponibilit\u00e9",
+        "popup_description": "Nous vous enverrons une notification d\u00e8s que ce produit sera \u00e0 nouveau disponible.",
+        "popup_button_text": "M'avertir",
+        "popup_note": "Nous respectons votre vie priv\u00e9e et ne partageons votre email avec personne.",
+        "field_email_placeholder": "email@exemple.com",
+        "field_message_placeholder": "Message",
+        "success_text": "Vous vous \u00eates abonn\u00e9(e) \u00e0 la notification.",
+        "required_email": "Votre e-mail est obligatoire",
+        "invalid_email": "Votre email n'est pas valide",
+        "invalid_message": "Votre message doit comporter moins de 255 caract\u00e8res",
+        "push_notification_message": "Receive via web notification",
+        "low_stock_content": "BIENT\u00d4T \u00c9PUIS\u00c9"
+    }
+};
+  {% endraw %}
+</script>

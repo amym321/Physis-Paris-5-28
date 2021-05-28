@@ -1,0 +1,24 @@
+<script>
+  if(typeof(Spurit) === 'undefined'){
+    var Spurit = {};
+  }
+  if(!Spurit.UpsellForProducts2){
+    Spurit.UpsellForProducts2 = {};
+  }
+  if(!Spurit.UpsellForProducts2.snippet){
+    Spurit.UpsellForProducts2.snippet = {};
+  }
+  Spurit.UpsellForProducts2.snippet.shopHash = '987ae85450c9e206aad4ffa0349a3907';
+
+  if (typeof(Spurit.globalSnippet) === 'undefined'){
+      Spurit.globalSnippet = {
+          shop_currency: '{{ shop.currency }}',
+          money_format: '{{ shop.money_format }}',
+          cart: {{ cart | json }},
+          customer_id: '{{ customer.id }}'
+      };
+  }
+</script>
+
+    <script src="https://cdn-spurit.com/shopify-apps/8upsell/common.js"></script>
+    <link href="https://cdn-spurit.com/shopify-apps/8upsell/common.css" rel="stylesheet" type="text/css" media="all">

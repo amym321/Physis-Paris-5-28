@@ -1,0 +1,312 @@
+<style>
+
+  tr:hover {
+    background: #fafafa; 
+  }
+/* The Modal (background) */
+.modal-sz {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 9999; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+    padding-bottom: 100px; /* Location of the box */
+
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.size-btn {
+    color: #000;
+    padding: 8px;
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 2px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .size-btn:hover {
+    color: #fff;
+    background: #000;
+  }
+  .size-btn:target {
+    color: #fff;
+    background: #000;
+  }
+  .size-btn:focus {
+    color: #fff;
+    background: #000;
+  }
+
+/* Modal Content */
+.modal-content-sz {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 500px;
+    border-radius:5px;
+
+}
+
+/* The Close Button */
+.close-sz {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-top:-10px;
+}
+
+.close-sz:hover,
+.close-sz:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+@media only screen and (max-device-width : 480px) {
+
+.modal-content-sz {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 5px;
+  border: 1px solid #888;
+  width: 95%;
+}
+}
+
+</style>
+
+<!-- The Modal -->
+<div id="myModal-sz" class="modal-sz">
+
+  <!-- Modal content -->
+  <div class="modal-content-sz">
+    <p style="display:flex; justify-content: space-between;">
+    <span style="text-align:left; ">
+      <button type="button" class="size-btn" href="#" onclick="toCm();">CM</button><span> </span><button class="size-btn" href="#" onclick="toIn()";>INCHES</button>
+    </span>
+    {% unless product.has_only_default_variant %}
+                {% for option in product.options_with_values %}
+                  
+    
+    {% if option.name == "Taille" %} 
+    <span class="size-swatch" style="">
+    {% for value in option.values %}
+      <span><button type="button" class="size-btn">{{ value }}</button> </span>
+     {% endfor %}
+      </span>
+    {% endif %}
+                {% endfor %}
+            {% endunless %}
+    
+    <span class="close-sz">&times;</span>
+    </p>
+    <hr style="margin: 15px 0 !important;">
+    <div id="sizeadviser_content"></div>
+  </div>
+
+</div>
+
+<script>
+function fixTable() {
+    var allTables = document.getElementById("sizeadviser_content").getElementsByTagName("table");
+  for(var i = 0; i < allTables.length; i++){
+    var table = allTables[i];
+    table.style.width = "100%";
+
+    }
+  };
+
+ function parseString(str) {
+   var matcher = /[^0-9\.]+/g;
+   var list = str.split(matcher);
+   list.forEach((item) => {
+     if (item) {
+       str = str.replace(item, (parseFloat(item)*0.3937007874).toFixed(1).toString()); 
+     } 
+   });
+   return str.replace('cm', '"');
+}
+
+function toIn() {
+var allDivTd = document.getElementById("sizeadviser_content").getElementsByTagName("TD");
+
+for(var i = 0; i < allDivTd.length; i++){
+    var td = allDivTd[i];
+    if (td.innerText.includes("cm") === true) {
+      //td.innerText = td.innerText+' in';
+      td.innerText = parseString(td.innerText);
+
+}
+
+    }
+}
+ function parseStringCm(str) {
+   var matcher = /[^0-9\.]+/g;
+   var list = str.split(matcher);
+   list.forEach((item) => {
+     if (item) {
+       str = str.replace(item, (parseFloat(item)*2.54).toFixed(0).toString()); 
+     } 
+   });
+   str = str.replace('in', 'cm');
+   return str.replace('"', 'cm');
+}
+
+function toCm() {
+var allDivTd = document.getElementById("sizeadviser_content").getElementsByTagName("TD");
+
+for(var i = 0; i < allDivTd.length; i++){
+    var td = allDivTd[i];
+    if (td.innerText.includes('"') === true || td.innerText.includes('in') === true) {
+      //td.innerText = td.innerText+' in';
+      td.innerText = parseStringCm(td.innerText);
+
+}
+
+    }
+}
+
+  var a = document.createElement("div");
+    a.innerHTML = '<a id="link-sz" href="#" style="display: none; color: rgb(0, 0, 0); font-size: 14px; font-weight: 400; text-align: left; margin-top: 0px; margin-bottom: 0px; border: 1px solid rgb(255, 255, 255); border-radius: 0px; padding: 0px; background-color: rgb(255, 255, 255);">     <svg style="width: 20px; height: 20px; fill: rgb(0, 0, 0);" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512.002 512.002"><path d="M509.502 104.908L407.097 2.502c-3.337-3.337-8.73-3.337-12.067 0L2.502 395.03c-3.337 3.337-3.337 8.73 0 12.067l102.405 102.405c1.596 1.604 3.772 2.5 6.033 2.5s4.43-.896 6.033-2.5L509.5 116.975c1.604-1.596 2.5-3.772 2.5-6.033s-.894-4.43-2.498-6.034zM110.94 491.402l-90.338-90.338 380.46-380.46L491.4 110.94 110.94 491.4zm298.7-414.605c-14.115 0-25.6 11.486-25.6 25.6s11.486 25.6 25.6 25.6 25.6-11.486 25.6-25.6-11.486-25.6-25.6-25.6zm0 34.135c-4.7 0-8.534-3.832-8.534-8.534s3.823-8.534 8.534-8.534 8.534 3.832 8.534 8.534-3.823 8.534-8.534 8.534z"></path><use xlink:href="#B"></use><use xlink:href="#C"></use><use xlink:href="#B" x="-51.203" y="51.195"></use><use xlink:href="#C" x="-51.203" y="51.187"></use><use xlink:href="#B" x="-102.405" y="102.39"></use><use xlink:href="#C" x="-102.405" y="102.383"></use><path d="M164.643 244.95l12.066-12.07 25.6 25.593-12.066 12.07z"></path><use xlink:href="#C" x="-153.608" y="153.595"></use><use xlink:href="#B" x="-204.81" y="204.796"></use><use xlink:href="#C" x="-204.81" y="204.797"></use><use xlink:href="#B" x="-255.993" y="256.01"></use><path d="M36.634 372.976l12.068-12.068 34.135 34.135L70.77 407.11z"></path><defs><path id="B" d="M318.253 91.37l12.068-12.068 25.603 25.603-12.068 12.068z"></path><path id="C" d="M292.648 116.973l12.068-12.068 34.135 34.135-12.068 12.068z"></path></defs></svg>   Guide des tailles</a>';
+    a.id = 'myBtn-sz';
+
+  var size_options = {{product.options_with_values | json}};
+  var size_index = size_options.map(function(o) { return o.name; }).indexOf("Taille");
+  var my_elem = document.querySelector("[action='/cart/add']").getElementsByTagName("select")[size_index];
+  my_elem.parentNode.insertBefore(a, my_elem);
+
+
+var modal = document.getElementById("myModal-sz");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn-sz");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close-sz")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
+
+//get product data details
+window.SizeAdviser = window.SizeAdviser === undefined ? {} : window.SizeAdviser;
+SizeAdviser.shop = "{{ shop.permanent_domain }}";
+{% assign t = template | prepend: "/" | append: "." %}
+{% if t contains "/product." %}
+SizeAdviser.data = {
+  collections: "{{ product.collections | map: "id" | join: ","}}",
+  tags: {{ product.tags | join: "," | json}},
+  product: "{{product.id}}",
+  vendor: {{product.vendor | json}}, 
+  type: {{product.type | json}},
+    options: {{product.options_with_values | json}},
+
+};
+
+function run_size_chart(){
+
+
+var sz_tags = SizeAdviser.data.tags.split(",");
+var sz_collections = SizeAdviser.data.collections.split(",");
+for (var i = 0; i < easysizeadviser_tables.length; i++) {
+
+  console.log(sz_tags + sz_collections);
+  
+  if (easysizeadviser_tables[i].productTypes === null) {
+    easysizeadviser_tables[i].productTypes = [];
+  }
+  if (easysizeadviser_tables[i].collections === null) {
+    easysizeadviser_tables[i].collections = [];
+  }
+  if (easysizeadviser_tables[i].products === null) {
+    easysizeadviser_tables[i].products = [];
+  }
+  if (easysizeadviser_tables[i].productTags === null) {
+    easysizeadviser_tables[i].productTags = [];
+  }
+  if (easysizeadviser_tables[i].productVendors === null) {
+    easysizeadviser_tables[i].productVendors = [];
+  }
+  //console.log(easysizeadviser_tables[i]);
+  
+  if (easysizeadviser_tables[i].conditions === 0) {
+    console.log('ANY conditions');
+  if (easysizeadviser_tables[i].productTypes.indexOf(SizeAdviser.data.type) > -1 || easysizeadviser_tables[i].productVendors.indexOf(SizeAdviser.data.vendor) > -1 || easysizeadviser_tables[i].products.indexOf(SizeAdviser.data.product) > -1 || (findCommonElement(sz_collections,easysizeadviser_tables[i].collections) === true) || (findCommonElement(sz_tags,easysizeadviser_tables[i].productTags) === true)) { 
+    console.log(easysizeadviser_tables[i].id);
+    document.getElementById("link-sz").style.display = "block";
+document.getElementById('sizeadviser_content').innerHTML = easysizeadviser_tables[i].chart_html;
+
+    break;
+  }
+} else {
+      console.log('ALL conditions');
+
+  if (easysizeadviser_tables[i].productTypes.length === 0) {
+      easysizeadviser_tables[i].productTypes.push(SizeAdviser.data.type);
+  }
+  if (easysizeadviser_tables[i].productTags.length === 0) {
+      easysizeadviser_tables[i].productTags.push(sz_tags[0]);
+  }
+   if (easysizeadviser_tables[i].productVendors.length === 0) {
+      easysizeadviser_tables[i].productVendors.push(SizeAdviser.data.vendor);
+  }
+  if (easysizeadviser_tables[i].products.length === 0) {
+      easysizeadviser_tables[i].products.push(SizeAdviser.data.product);
+  }
+  if (easysizeadviser_tables[i].collections.length === 0) {
+      easysizeadviser_tables[i].collections.push(sz_collections[0]);
+  }
+  console.log('next sz');
+  console.log(easysizeadviser_tables[i]);
+ if (easysizeadviser_tables[i].productTypes.indexOf(SizeAdviser.data.type) > -1 &&  easysizeadviser_tables[i].productVendors.indexOf(SizeAdviser.data.vendor) > -1 && easysizeadviser_tables[i].products.indexOf(SizeAdviser.data.product) > -1 && (findCommonElement(sz_collections,easysizeadviser_tables[i].collections) === true) && (findCommonElement(sz_tags,easysizeadviser_tables[i].productTags) === true)) { 
+    console.log(easysizeadviser_tables[i].id);
+    document.getElementById("link-sz").style.display = "block";
+document.getElementById('sizeadviser_content').innerHTML = easysizeadviser_tables[i].chart_html;
+
+    break;
+  }
+
+}
+}
+};
+  {% endif %}
+
+  
+  function findCommonElement(array1, array2) { 
+      
+    for(let i = 0; i < array1.length; i++) { 
+          
+        for(let j = 0; j < array2.length; j++) { 
+              
+            if(array1[i] === array2[j]) { 
+              
+                return true; 
+            } 
+        } 
+    } 
+      
+    return false;  
+}; 
+
+</script>
