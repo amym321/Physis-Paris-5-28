@@ -11741,3 +11741,36 @@ opacity: 0;
 yourselector {
 opacity: 0;
 }
+
+/****** custom code - am *****/
+
+/* increase the size of products on the featured collection for mobile version, (max-width:768px) */
+@include media-query($small) {
+  .grid-overflow-wrapper .grid__item {
+    width: 80vw; 
+    flex: 0 0 80vw; 
+     -ms-flex: 0 0 80vw;
+  }
+ }
+ 
+ /* allow slideshow to have natural height on desktop and any height on mobile */
+ @include media-query($small) {
+   .hero--mobile--250px {
+     height: 250px;
+   }
+   .hero--mobile--300px {
+     height: 300px;
+   }
+   .hero--mobile--400px {
+     height: 400px;
+   }
+   .hero--mobile--500px {
+     height: 500px;
+   }
+   .hero--mobile--100vh {
+     height: 90vh;
+   }
+ }
+ 
+ /****** end custom code - am *****/
+ 
