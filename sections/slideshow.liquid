@@ -38,14 +38,30 @@
         {% endfor %}
       {% endif %}
 
+      {% comment %}
+        custom code - am.  captured mobile_height for padding
+        added style for mobile. added @media for .hero-natural originally present
+      {% endcomment %}
       {% if natural_height %}
+      {% assign mobile_height_when_natural = true %}
+      {% capture mobile_height_when_natural  %} {{ section.settings.mobile_height }} {% endcapture %}
+
         {% style %}
-          .hero-natural--{{ section.id }} {
-            height: 0;
-            padding-bottom: {{ natural_height_ratio }};
+          @media screen and (min-width: 769px) {
+            .hero-natural--{{ section.id }} {
+              height: 0;
+              padding-bottom: {{ natural_height_ratio }};
+            }
+          }
+          @media screen and (max-width: 768px) {
+            .hero-natural--{{ section.id }} {
+              height: 0;
+              padding-bottom: {{ mobile_height_when_natural }};
+            }
           }
         {% endstyle %}
       {% endif %}
+      {% comment %} end custom code - am {% endcomment %}
 
       {% if natural_height %}
         <div class="hero-natural--{{ section.id }}">
@@ -279,7 +295,7 @@
         "id": "mobile_height",
         "label": "Mobile height",
         "default": "auto",
-        "info": "Not used if desktop height is set to natural",
+        "info": "You may have natural desktop and mobile height together",
         "options": [
           {
             "label": "Auto",
